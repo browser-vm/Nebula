@@ -222,7 +222,7 @@ git clone https://github.com/nebulaservices/nebula --recursive && cd nebula
 
 2. Install all of the dependencies:
 ```bash
-npm i
+npm i --legacy-peer-deps
 ```
 
 3. Create a `config.toml` file
