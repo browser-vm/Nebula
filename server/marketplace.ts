@@ -22,7 +22,7 @@ interface Catalog {
     description: string;
     author: string;
     image: string;
-    tags: Record<string, unknown>;
+    tags: string[]; // Change this line
     version: string;
     background_image: string;
     background_video: string;
@@ -124,7 +124,7 @@ function marketplaceAPI(app: FastifyInstance) {
             author: string;
             version: string;
             description: string;
-            tags: Record<string, unknown>;
+            tags: string[];
             payload: string;
             background_video: string;
             background_image: string;
