@@ -17,6 +17,7 @@
     "format": "npm run format:code && npm run format:imports",
     "version": "changeset version",
   },
+  
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/node": "^9.0.2",
