@@ -22,7 +22,7 @@ interface Catalog {
     description: string;
     author: string;
     image: string;
-    tags: object;
+    tags: Record<string, unknown>;
     version: string;
     background_image: string;
     background_video: string;
@@ -57,9 +57,6 @@ function marketplaceAPI(app: FastifyInstance) {
         });
     });
 
-    // This API returns a list of the assets in the database (SW plugins and themes).
-    // It also returns the number of pages in the database.
-    // It can take a `?page=x` argument to display a different page, with a limit of 20 assets per page.
     type CatalogAssetsReq = FastifyRequest<{ Querystring: { page: string } }>;
     app.get("/api/catalog-assets/", async (request: CatalogAssetsReq, reply) => {
         try {
@@ -85,10 +82,10 @@ function marketplaceAPI(app: FastifyInstance) {
                     type: asset.type
                 };
                 return acc;
-            }, {});
+            }, {} as Record<string, Omit<Catalog, 'package_name'>>);
             return reply.send({ assets, pages: Math.ceil(totalItems / 20) });
         } catch (error) {
-            return reply.status(500).send({ error: "An error occured" });
+            return reply.status(500).send({ error: "An error occurred" });
         }
     });
 
@@ -113,7 +110,7 @@ function marketplaceAPI(app: FastifyInstance) {
             };
             reply.send(details);
         } catch (error) {
-            reply.status(500).send({ error: "An unexpected error occured" });
+            reply.status(500).send({ error: "An unexpected error occurred" });
         }
     });
 
@@ -127,7 +124,7 @@ function marketplaceAPI(app: FastifyInstance) {
             author: string;
             version: string;
             description: string;
-            tags: object | any;
+            tags: Record<string, unknown>;
             payload: string;
             background_video: string;
             background_image: string;
@@ -141,7 +138,7 @@ function marketplaceAPI(app: FastifyInstance) {
     async function verifyReq(
         request: UploadReq | CreateReq,
         upload: boolean,
-        data: any
+        data: unknown
     ): Promise<VerifyStatus> {
         if (request.headers.psk !== parsedDoc.marketplace.psk) {
             return { status: 403, error: new Error("PSK isn't correct!") };
