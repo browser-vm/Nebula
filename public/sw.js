@@ -4,14 +4,22 @@ importScripts('/scram/scramjet.wasm.js');
 importScripts('/scram/scramjet.shared.js');
 importScripts('/scram/scramjet.worker.js');
 importScripts("/workerware/workerware.js");
-importScripts(__uv$config.sw || "/uv/uv.sw.js");
+importScripts("/uv/uv.sw.js");
+
+const __uv$config = self.__uv$config || {};
+const UVServiceWorker = self.UVServiceWorker || class {};
+const WorkerWare = self.WorkerWare || class {};
+const ScramjetServiceWorker = self.ScramjetServiceWorker || class {};
+
 const uv = new UVServiceWorker();
 const ww = new WorkerWare({ debug: false });
 const sj = new ScramjetServiceWorker();
+
 (async function () {
-        await sj.loadConfig();
+    await sj.loadConfig();
 })();
-//me when Firefox (thanks vk6)
+
+// Handle Firefox specific behavior
 if (navigator.userAgent.includes("Firefox")) {
     Object.defineProperty(globalThis, "crossOriginIsolated", {
         value: true,
@@ -19,11 +27,10 @@ if (navigator.userAgent.includes("Firefox")) {
     });
 }
 
-//where we handle our plugins!!!
+// Handle plugins
 self.addEventListener("message", function (event) {
     console.log(event.data);
     uv.config.inject = [];
-    //loop over the required data (we don't verify here as types will take care of us :D)
     event.data.forEach((data) => {
         if (data.remove) {
             if (data.type === "page") {
