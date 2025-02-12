@@ -16,8 +16,6 @@
     "format:imports": "biome check . --write",
     "format": "npm run format:code && npm run format:imports",
     "version": "changeset version",
-    "test": "npx eslint .",
-    "test:autofix": "npx eslint . --fix"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
