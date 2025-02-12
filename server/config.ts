@@ -6,7 +6,7 @@ import { TomlPrimitive, parse } from "smol-toml";
 interface TomlData {
     marketplace: {
         enabled: boolean;
-        psk: String;
+        psk: string;
     };
     server: {
         server: {
@@ -38,7 +38,7 @@ interface Verify {
     verifyExtras?: () => boolean | Error;
 }
 
-let doc = readFileSync(fileURLToPath(new URL("../config.toml", import.meta.url))).toString();
+const doc = readFileSync(fileURLToPath(new URL("../config.toml", import.meta.url))).toString();
 const parsedDoc = parse(doc) as unknown as TomlData;
 
 function verify(t: Verify[]) {
