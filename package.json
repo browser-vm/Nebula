@@ -68,5 +68,6 @@
     "sharp": "^0.33.5",
     "tsx": "^4.19.2",
     "typescript-eslint": "^8.24.0"
-  }
+  },
+ "all_direct_dependencies": {}
 }
