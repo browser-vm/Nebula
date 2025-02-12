@@ -117,7 +117,7 @@ class Marketplace {
     }
 
 
-    async getThemes(name?: string): Promise<{themes: any, theme: string, exists: Boolean}> {
+    async getThemes(name?: string): Promise<{themes: any, theme: string, exists: boolean}> {
         const themes = JSON.parse(this.#storage.getVal(SettingsVals.marketPlace.themes)) || [];
         const theme = themes.find((t: any) => t === name);
         const exists = themes.indexOf(name) !== -1;
@@ -150,7 +150,7 @@ class Marketplace {
     }
 
     async installPlugin(plugin: Plug) {
-        let { plugins, plug } = await this.getPlugins(plugin.name);
+        const { plugins, plug } = await this.getPlugins(plugin.name);
         if (plug && plug.remove) { plug.remove = false; console.log(plug); return this.#storage.setVal(SettingsVals.marketPlace.plugins, JSON.stringify(plugins)) };
         plugins.push({ name: plugin.name, src: plugin.src, type: plugin.type } as unknown as Plug);
         this.#storage.setVal(SettingsVals.marketPlace.plugins, JSON.stringify(plugins));
@@ -165,7 +165,7 @@ class Marketplace {
     }
 
     async uninstallPlugin(plug: Omit<Plug, "src">) {
-        let { plugins: items, plug: plugin } = await this.getPlugins(plug.name);
+        const { plugins: items, plug: plugin } = await this.getPlugins(plug.name);
 
         if (!plugin) return log({ type: 'error', bg: false, prefix: false, throw: true }, `Plugin: ${plug.name} is not installed!`);
         plugin.remove = true;

@@ -140,7 +140,7 @@ function marketplaceAPI(app: FastifyInstance) {
     }
     async function verifyReq(
         request: UploadReq | CreateReq,
-        upload: Boolean,
+        upload: boolean,
         data: any
     ): Promise<VerifyStatus> {
         if (request.headers.psk !== parsedDoc.marketplace.psk) {
